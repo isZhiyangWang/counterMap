@@ -4,6 +4,7 @@ import "leaflet-toolbar";
 import "leaflet-distortableimage";
 import './Leaflet.ImageOverlay.Rotated.js'; // Custom rotated overlay plugin
 
+
 // Global flag: scroll-guided animation toggle
 window.scrollGuidedEnabled = true;
 

@@ -16,6 +16,7 @@ import "leaflet-toolbar";
 import "leaflet-distortableimage";
 import './Leaflet.ImageOverlay.Rotated.js';
 
+
 // Import PDF.js library and its worker source.
 import * as pdfjsLib from 'pdfjs-dist';
 import workerSource from 'pdfjs-dist/build/pdf.worker.mjs?raw';
