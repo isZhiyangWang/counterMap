@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Counter-Map Landing</title>
+
+  <!-- Better responsiveness on mobile devices -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" 
+    rel="stylesheet"
+  />
+
+  <!-- Main CSS -->
+  <!-- We're still directly linking to a local CSS file. 
+       Alternatively, you could import it in JavaScript, but this setup is kept as-is. -->
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+  <div id="loadingOverlay">
+    <div class="loading-spinner"></div>
+    <p>Loading maps...</p>
+  </div>
+  
+  <header>
+    <h1>Historic Counter-Map of Haiti</h1>
+  </header>
+
+  <main class="page-layout">
+    <!-- Left: Map display -->
+    <section class="map-column">
+      <div id="map" aria-label="Interactive map of Haiti"></div>
+    </section>
+
+    <!-- Right: Information panel -->
+    <aside id="mapInfo" class="info-panel" aria-live="polite">
+      <!-- Toggle for "Scroll Guided" functionality -->
+      <div class="scroll-toggle">
+        <label for="scrollToggleCheckbox">
+          <input type="checkbox" id="scrollToggleCheckbox" checked />
+          Enable Scroll Guided
+        </label>
+      </div>
+
+      <!-- Container for region title cards -->
+      <div id="regionList" class="region-list">
+        <!-- Region title cards will be dynamically inserted by JavaScript -->
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    <p>&copy; Counter Map@Colonial Network 2024 || Supported by NYU Digital Humanities Seed Grant</p>
+  </footer>
+
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

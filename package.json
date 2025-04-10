@@ -1,0 +1,21 @@
+{
+  "name": "counter-map",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^6.2.0"
+  },
+  "dependencies": {
+    "leaflet": "^1.9.4",
+    "leaflet-distortableimage": "^0.21.9",
+    "leaflet-toolbar": "^0.4.0-alpha.2",
+    "pdfjs-dist": "^5.1.91",
+    "toolbar": "^0.0.5"
+  }
+}

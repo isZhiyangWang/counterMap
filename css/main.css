@@ -1,0 +1,213 @@
+/* ==============================
+   main.css
+   ============================== */
+
+/* ========== Global Reset / Base Styles ========== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* 
+   Use different body classes for layout distinction:
+   - Landing Page: <body class="landing-page">
+   - Detail Page: <body class="detail-page">
+*/
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Make body a vertical flex container */
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Disable global scrolling on landing page; 
+   Map stays fixed on the left, and the right panel scrolls internally */
+body.landing-page {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Allow normal scrolling on detail pages based on content height */
+body.detail-page {
+  height: auto;
+  overflow: visible;
+}
+
+/* ========== Header & Footer ========== */
+header, footer {
+  flex: 0 0 auto;  /* Auto height based on content, or set a fixed height */
+}
+
+main {
+  flex: 1 1 auto;  /* Fill the remaining vertical space */
+  overflow: hidden;  /* Hide global scroll; allow internal scrolling if needed */
+}
+
+header {
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+  padding: 1rem;
+}
+
+header h1 {
+  margin: 0;
+  font-weight: 500;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+footer {
+  background-color: #fff;
+  border-top: 1px solid #ccc;
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* ========== Landing Page Layout: Two Columns ========== */
+main.page-layout {
+  display: flex;
+  flex-direction: row;
+  height: calc(100vh - 140px); 
+  /* Adjust for header (~60px), footer (~40px), and extra spacing */
+}
+
+/* Left: Map Section */
+.map-column {
+  position: relative;
+  flex: 7;
+  border-right: 1px solid #ccc;
+  background: #eee; /* Placeholder background before map loads */
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+/* Right: Information Panel */
+.info-panel {
+  flex: 3;
+  background: #fff;
+  overflow-y: auto; /* Enable internal scrolling */
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+/* Toggle switch for "Scroll Guided" feature */
+.scroll-toggle {
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 0.5rem;
+  border-radius: 6px;
+  background: #fafafa;
+}
+
+.scroll-toggle label {
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+/* Region List Styling */
+.region-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Region Card Styling */
+.region-card {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+  background: #fff;
+}
+
+.region-card:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.01);
+}
+
+/* ========== Responsive Design for Small Screens ========== */
+@media (max-width: 768px) {
+  /* 
+     Switch to vertical layout on smaller screens:
+     Map on top, info panel below.
+     Alternatively, you can retain the side-by-side layout with adjustments.
+  */
+  main.page-layout {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .map-column {
+    flex: none;
+    width: 100%;
+    height: 40vh; /* Customizable fixed height for map */
+    border-right: none;
+    border-bottom: 1px solid #ccc;
+  }
+
+  #map {
+    height: 100%;
+  }
+
+  .info-panel {
+    flex: none;
+    width: 100%;
+    height: auto;
+    max-height: 60vh;
+    border-top: none;
+  }
+}
+
+/* ========== Full-Screen Loading Overlay ========== */
+#loadingOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.95);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: #333;
+  transition: opacity 0.3s ease;
+}
+
+/* Spinner Animation */
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.2);
+  border-top-color: #000;
+  border-radius: 50%;
+  animation: spin 1s infinite linear;
+  margin-bottom: 12px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Hide the loading overlay */
+#loadingOverlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}

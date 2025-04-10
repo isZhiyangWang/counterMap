@@ -1,0 +1,283 @@
+/* ==============================
+   details.css
+   ============================== */
+
+body.detail-page {
+  background-color: #fafafa;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif; 
+}
+
+
+header {
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+  padding: 1rem;
+}
+
+header h1 {
+  margin: 0;
+  font-weight: 500;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+footer {
+  background-color: #fff;
+  border-top: 1px solid #ccc;
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+
+.detail-layout {
+  display: flex;
+  flex-direction: row;
+  height: calc(100vh - 140px); 
+  overflow: hidden; 
+}
+
+.detail-map-container {
+  flex: 7;
+  position: relative;
+  border-right: 1px solid #ccc;
+  background: #eee; 
+}
+
+.detail-map-container #detailMap {
+  width: 100%;
+  height: 100%;
+}
+
+.detail-info-panel {
+  flex: 3;
+  padding: 1rem;
+  background-color: #fff;
+  overflow-y: auto;
+}
+
+
+.marker-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+
+.marker-item {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.75rem;
+  transition: background-color 0.2s, transform 0.2s;
+  background: #fff;
+  cursor: pointer;
+}
+
+
+.marker-description {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: max-height 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+  position: relative;
+}
+
+.marker-description.open {
+  max-height: 500px;
+  opacity: 1;
+  overflow-y: scroll;
+  transform: scaleY(1);
+}
+
+.marker-description .close-btn {
+  position: relative;
+  left: 0px;
+  bottom: -5px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+
+
+.back-link {
+  display: inline-block;
+  margin-top: 1rem;
+  text-decoration: none;
+  color: #1f3f49;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+.back-link:hover {
+  color: #333;
+}
+
+
+@media (max-width: 768px) {
+  .detail-layout {
+    flex-direction: column;
+    height: auto; 
+  }
+  .detail-map-container {
+    flex: none;
+    width: 100%;
+    height: 40vh;
+    border-right: none;
+    border-bottom: 1px solid #ccc;
+  }
+  #detailMap {
+    height: 100%;
+  }
+  .detail-info-panel {
+    flex: none;
+    width: 100%;
+    max-height: 60vh;
+    overflow-y: auto;
+    border-top: none;
+  }
+}
+
+
+.reset-view-button {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  transition: background-color 0.2s, transform 0.2s;
+}
+.reset-view-button:hover {
+  background: #f0f0f0;
+  transform: scale(1.03);
+}
+
+
+.overlay-opacity-slider {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+.overlay-opacity-slider input[type=range] {
+  width: 100px;
+  vertical-align: middle;
+}
+.overlay-opacity-slider span {
+  margin-left: 6px;
+  font-size: 0.9rem;
+}
+
+
+.pdf-info {
+  margin-top: 1rem;
+  border-top: 1px solid #ccc;
+  padding-top: 0.5rem;
+}
+.pdf-info h4 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1rem;
+  color: #333;
+}
+.pdf-info p {
+  margin: 0 0 0.5rem 0;
+  color: #555;
+}
+
+
+.pdf-button,
+.pdf-modal-close-btn {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.pdf-modal-close-btn:hover {
+  background: #f0f0f0;
+  transform: scale(1.03);
+}
+.pdf-button:hover{
+  background: #f0f0f0;
+  transition:cubic-bezier(1, 0, 0, 1);
+}
+
+.pdf-modal {
+  display: none; 
+  position: fixed;
+  top: 0; 
+  left: 0;
+  width: 100%; 
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+.pdf-modal-content {
+  position: relative;
+  background: #fff;
+  border-radius: 4px;
+  max-width: 80%;
+  width: 800px;
+  max-height: 80%;
+  padding: 1rem;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+
+.pdf-modal-close-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0.25rem;
+  line-height: 1;
+  color: #333;
+  transition: color 0.2s ease;
+}
+.pdf-modal-close-btn:hover {
+  color: #e74c3c;
+}
+
+
+.marker-highlight {
+  background-color: yellow;
+  cursor: pointer;
+  padding: 0 2px;
+}
+.marker-highlight:hover {
+  background-color: gold;
+}
+
+
+
+
+.card-close {
+  display: block;
+  margin-top: 1em;
+  text-align: center;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 6px 10px;
+  border-radius: 4px;
+}
