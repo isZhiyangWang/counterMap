@@ -3,18 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <title>A Critical Counter Map of Haiti/Saint-Domingue</title>
-
   <!-- Better responsiveness on mobile devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-
   <!-- Main CSS -->
-
-  <script type="module" crossorigin src="/counterMap/assets/main-BONHUKqP.js"></script>
-  <link rel="modulepreload" crossorigin href="/counterMap/assets/Leaflet.ImageOverlay.Rotated-DBe7n3vG.js">
-  <link rel="stylesheet" crossorigin href="/counterMap/assets/Leaflet.ImageOverlay-C1iPIs7i.css">
+  <script type="module" crossorigin src="/counterMap/assets/main-BrJ23ZFP.js"></script>
+  <link rel="modulepreload" crossorigin href="/counterMap/assets/Leaflet.ImageOverlay.Rotated-2oVWDPUA.js">
+  <link rel="stylesheet" crossorigin href="/counterMap/assets/Leaflet.ImageOverlay-DAXn2J-l.css">
 </head>
-<body>
+<body class="landing-page">
   <div id="loadingOverlay">
     <div class="loading-spinner"></div>
     <p>Loading maps...</p>
@@ -23,28 +19,33 @@
   <header>
     <h1>A Critical Counter Map of Haiti/Saint-Domingue</h1>
   </header>
-
+  
   <main class="page-layout">
     <!-- Left: Map display -->
     <section class="map-column">
       <div id="map" aria-label="Interactive map of Haiti"></div>
     </section>
-
+    
     <!-- Right: Information panel -->
     <aside id="mapInfo" class="info-panel" aria-live="polite">
-      <!-- Toggle for "Scroll Guided" functionality -->
-
+      <h2>Map Overview</h2>
+      <p class="panel-intro">
+        Explore the different regions and towns of Haiti/Saint-Domingue. 
+        Click on any map element or list item to view its details. 
+        This counter-map project provides access to detailed research papers and 
+        critical analysis of Haiti's historical geography.
+      </p>
+      
       <!-- Container for region title cards -->
       <div id="regionList" class="region-list">
         <!-- Region title cards will be dynamically inserted by JavaScript -->
       </div>
     </aside>
   </main>
-
+  
   <footer>
     <p>&copy; Counter Map@Colonial Network 2024 || Supported by NYU Digital Humanities Seed Grant</p>
   </footer>
-
-
+  
 </body>
 </html>
