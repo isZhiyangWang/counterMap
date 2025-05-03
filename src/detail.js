@@ -14,12 +14,18 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import "leaflet-toolbar";
 import "leaflet-distortableimage";
-import './Leaflet.ImageOverlay.Rotated.js';
+import "./Leaflet.ImageOverlay.Rotated.js";
+
+
+import parseGeoraster from "georaster";
+import GeoRasterLayer from "georaster-layer-for-leaflet";
 
 
 // Import PDF.js library and its worker source.
 import * as pdfjsLib from 'pdfjs-dist';
 import workerSource from 'pdfjs-dist/build/pdf.worker.mjs?raw';
+
+
 
 // Create a Blob URL from the worker source and set it as PDF.js worker.
 const blob = new Blob([workerSource], { type: 'application/javascript' });
@@ -34,7 +40,8 @@ let markersLayer;
 let currentRegionData = null;
 let currentOpenIdx = null;
 let overlay = null;
-
+let initialBounds = null;
+const useGeoTiff = true;
 // ==============================
 // PDF Processing Functions
 // ==============================
@@ -288,6 +295,16 @@ async function processMarkersPdfText(markers) {
       try {
         let pdfText = await loadPdfText(mk.pdfUrl);
 
+        // Extract the full title from the first <h1> element of the PDF text.
+        let tempDiv = document.createElement('div');
+        tempDiv.innerHTML = pdfText;
+        let h1Elem = tempDiv.querySelector('h1');
+        if (h1Elem && h1Elem.textContent) {
+          mk.fullTitle = h1Elem.textContent;
+        } else {
+          mk.fullTitle = mk.title;
+        }
+
         if (Array.isArray(mk.pdfHighlights)) {
           mk.pdfHighlights.forEach(highlight => {
             const { keyword, markerIdx, url } = highlight;
@@ -305,7 +322,10 @@ async function processMarkersPdfText(markers) {
       } catch (err) {
         console.error('PDF parsing failed:', mk.pdfUrl, err);
         mk.pdfExcerpt = '(Failed to parse PDF text.)';
+        mk.fullTitle = mk.title;
       }
+    } else {
+      mk.fullTitle = mk.title;
     }
   }
 }
@@ -373,78 +393,178 @@ function openPdfModal(pdfUrl) {
   modal.style.display = 'flex';
 }
 
+/**
+ * Opens an image overlay displaying a larger version of the feature image along with a caption.
+ *
+ * @param {string} imageSrc - The URL of the image.
+ * @param {string} caption - A caption for the image.
+ */
+function openImageOverlay(imageSrc, caption) {
+  let imageOverlay = document.getElementById("imageOverlay");
+  if (!imageOverlay) {
+    imageOverlay = document.createElement("div");
+    imageOverlay.id = "imageOverlay";
+    imageOverlay.style.position = "fixed";
+    imageOverlay.style.top = 0;
+    imageOverlay.style.left = 0;
+    imageOverlay.style.width = "100%";
+    imageOverlay.style.height = "100%";
+    imageOverlay.style.backgroundColor = "rgba(0,0,0,0.8)";
+    imageOverlay.style.display = "flex";
+    imageOverlay.style.justifyContent = "center";
+    imageOverlay.style.alignItems = "center";
+    imageOverlay.style.zIndex = 10000;
+    
+    // Clicking the overlay hides it.
+    imageOverlay.addEventListener("click", () => {
+       imageOverlay.style.display = "none";
+    });
+    
+    document.body.appendChild(imageOverlay);
+  }
+  imageOverlay.innerHTML = `
+    <div style="position: relative;">
+      <img src="${imageSrc}" alt="${caption}" style="max-width: 90vw; max-height: 90vh; display: block; margin: 0 auto;">
+      <p style="color: #fff; text-align: center; margin-top: 0.5rem;">${caption || ""}</p>
+    </div>
+  `;
+  imageOverlay.style.display = "flex";
+}
+
 // ==============================
 // Map Initialization & Marker Functions
 // ==============================
+
 /**
  * Initializes the detailed map with a region's data.
  *
  * @param {Object} region - Region data including coordinates, overlay, and markers.
  */
+
+
+/* ================================
+ * LOADING OVERLAY
+ * ================================ */
+async function loadOverlay(region) {
+  const placeholderLayer = L.imageOverlay(
+    region.overlayImage,
+    region.overlayBounds,
+    { opacity: 0.9 }
+  ).addTo(detailMap);
+
+  // loading SHADOW
+  showLoading(true);
+
+  if (useGeoTiff) {
+    const tifUrl = region.overlayImage.replace(/\.(jpg|jpeg|png)$/i, ".tif");
+    try {
+      /* ---------- 1. fetch  ---------- */
+      const resp = await fetch(tifUrl);
+      if (!resp.ok) throw new Error("HTTP " + resp.status);
+
+      const buf = await resp.arrayBuffer();
+      const hdr = new Uint8Array(buf, 0, 4);
+      const validHdr =
+        (hdr[0] === 0x49 && hdr[1] === 0x49) || /* II */
+        (hdr[0] === 0x4d && hdr[1] === 0x4d);   /* MM */
+      if (!validHdr) throw new Error("Not a TIFF header");
+
+      /* ---------- 2. ANALYSE ---------- */
+      const georaster = await parseGeoraster(buf, {
+        onlyFirstBand: true,
+        downsampleRatio: 2
+      });
+
+      const high = new GeoRasterLayer({
+        georaster,
+        opacity: 0,           // TRANSPARENT
+        resolution: 512
+      }).addTo(detailMap);
+
+      high.once("load", () => {
+        // MAP LOADING FINISHED
+        initialBounds = high.getBounds();
+        detailMap.fitBounds(initialBounds);
+        high.setOpacity(region.overlayOpacity ?? 0.7);
+
+        // REMOVE LOADING MASK
+        detailMap.removeLayer(placeholderLayer);
+        showLoading(false);
+      });
+
+      overlay = high;
+      return;                 // ← GeoTIFF SUCCESS
+    } catch (e) {
+      console.warn("[GeoTIFF] failed, fallback:", e);
+      // IF GEOTIFF FAILED, FALLBACK TO JPG/PNG
+      if (overlay && overlay !== placeholderLayer) detailMap.removeLayer(overlay);
+    }
+  }
+
+  /* ---------- 3. FALLBACK ---------- */
+  overlay        = placeholderLayer;
+  initialBounds  = placeholderLayer.getBounds();
+  detailMap.fitBounds(initialBounds);
+  showLoading(false);
+}
+
+/* ================================
+ * COMMON CONTROLS
+ * ================================ */
+function addCommonControls(region) {
+  markersLayer = L.layerGroup().addTo(detailMap);
+
+  if (region.markers?.length) {
+    region.markers.forEach((mk, idx) => {
+      const m = L.marker(mk.coordinates).addTo(markersLayer);
+      m.bindPopup(`<strong>${mk.fullTitle || mk.title}</strong>`);
+      m.on("click", () => {
+        detailMap.flyTo(mk.coordinates, 18);
+        m.openPopup();
+        toggleMarkerDescription(idx);
+      });
+    });
+  }
+  addResetViewButton(initialBounds);
+  addOverlayOpacitySlider(region.overlayOpacity ?? 0.5);
+}
+
+/* ================================
+ * INITIAL MAP
+ * ================================ */
 function initDetailMap(region) {
-  detailMap = L.map('detailMap', {
+  detailMap = L.map("detailMap", {
     center: region.coordinates,
     zoom: 10,
     minZoom: 7,
     maxZoom: 20
   });
-
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution: 'Map data © OpenStreetMap contributors, © CARTO'
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+    attribution: "Map data © OpenStreetMap contributors, © CARTO"
   }).addTo(detailMap);
 
-  const b = region.overlayBounds;
-  const corners = [
-    L.latLng(b[0][0], b[0][1]),
-    L.latLng(b[1][0], b[1][1]),
-    L.latLng(b[3][0], b[3][1]),
-    L.latLng(b[2][0], b[2][1])
-  ];
-
-  overlay = L.distortableImageOverlay(region.overlayImage, {
-    corners: corners,
-    opacity: region.overlayOpacity || 0.7,
-  }).addTo(detailMap);
-
-  overlay.once('load', () => {
-    if (overlay._image) {
-      overlay._image.style.opacity = (region.overlayOpacity || 0.5).toString();
-    }
+  loadOverlay(region).then(() => {
+    addCommonControls(region);
   });
-
-  const latValues = [b[0][0], b[1][0], b[2][0], b[3][0]];
-  const lngValues = [b[0][1], b[1][1], b[2][1], b[3][1]];
-  const minLat = Math.min(...latValues);
-  const maxLat = Math.max(...latValues);
-  const minLng = Math.min(...lngValues);
-  const maxLng = Math.max(...lngValues);
-
-  detailMap.fitBounds([
-    [minLat, minLng],
-    [maxLat, maxLng]
-  ]);
-
-  markersLayer = L.layerGroup().addTo(detailMap);
-
-  if (region.markers && region.markers.length > 0) {
-    region.markers.forEach((mk, idx) => {
-      const marker = L.marker(mk.coordinates).addTo(markersLayer);
-      marker.bindPopup(`
-        <strong>${mk.title}</strong>
-      `);
-      marker.on('click', () => {
-        detailMap.flyTo(mk.coordinates, 18);
-        marker.openPopup();
-      });
-    });
-  }
-
-  addResetViewButton([
-    [minLat, minLng],
-    [maxLat, maxLng]
-  ]);
-  addOverlayOpacitySlider(region.overlayOpacity || 0.5);
 }
+
+/* ================================
+ * LOADING SHADOW
+ * ================================ */
+function showLoading(show = true) {
+  let el = document.getElementById("geotiffLoading");
+  if (!el) {
+    el = document.createElement("div");
+    el.id = "geotiffLoading";
+    el.style.cssText =
+      "position:fixed;inset:0;display:flex;align-items:center;justify-content:center;" +
+      "background:rgba(255,255,255,.7);z-index:6000;font:700 1.1rem sans-serif";
+    el.textContent = "⏳ Loading map…";
+    document.body.appendChild(el);
+  }
+  el.style.display = show ? "flex" : "none";
+}
+
 
 /**
  * Adds a reset view button to the map.
@@ -525,8 +645,7 @@ function addOverlayOpacitySlider(defaultOpacity) {
 
 /**
  * Toggles (expands) the marker description.
- * Updated: when a marker item is clicked, it expands (after closing other open ones)
- * but does not collapse on its own – the close action is handled by the close button.
+ * When a marker item is clicked, it expands (after closing any other open ones).
  *
  * @param {number} idx - Index of the marker.
  */
@@ -535,7 +654,7 @@ function toggleMarkerDescription(idx) {
   if (!currentDiv) return;
 
   const currentDesc = currentDiv.querySelector('.marker-description');
-
+  const closeBtn = currentDiv.querySelector('.close-btn');
   // If already expanded, do nothing (collapse will be done via the close button)
   if (currentOpenIdx === idx) {
     return;
@@ -546,11 +665,14 @@ function toggleMarkerDescription(idx) {
     const prevDiv = document.getElementById(`markerItem-${currentOpenIdx}`);
     if (prevDiv) {
       const prevDesc = prevDiv.querySelector('.marker-description');
+      const prevBtn = prevDiv.querySelector('.close-btn');
       prevDesc?.classList.remove('open');
+      if (prevBtn) prevBtn.style.display = 'none';
     }
   }
 
   currentDesc.classList.add('open');
+  if (closeBtn) closeBtn.style.display = 'block';
   currentOpenIdx = idx;
 }
 
@@ -562,15 +684,19 @@ function toggleMarkerDescription(idx) {
  */
 function closeMarkerDescription(idx, event) {
   event.stopPropagation();
+
   const currentDiv = document.getElementById(`markerItem-${idx}`);
   if (!currentDiv) return;
+
   const currentDesc = currentDiv.querySelector('.marker-description');
-  if (currentDesc) {
-    currentDesc.classList.remove('open');
-  }
+  const closeBtn = currentDiv.querySelector('.close-btn');
+
+  if (currentDesc) currentDesc.classList.remove('open');
+  if (closeBtn) closeBtn.style.display = 'none';
+
   if (currentOpenIdx === idx) {
     currentOpenIdx = null;
-    detailMap.flyTo(currentRegionData.coordinates, 13);
+    detailMap.fitBounds(initialBounds); 
   }
 }
 
@@ -610,8 +736,9 @@ function renderMarkersInfo(markers) {
     // Build marker description HTML.
     let descHTML = `<p>${mk.text || ''}</p>`;
     if (mk.image && mk.imageAlt) {
+      // Feature image is now clickable.
       descHTML += `
-        <div class="marker-image" style="margin-top: 1rem;">
+        <div class="marker-image" style="margin-top: 1rem; cursor: pointer;">
           <img src="${mk.image}" alt="${mk.imageAlt}" style="max-width: 100%; height: auto;"/>
         </div>
       `;
@@ -625,24 +752,22 @@ function renderMarkersInfo(markers) {
         </div>
       `;
     }
-    if (mk.pdfUrl) {
-      // descHTML += `
-      //   <button class="pdf-button" data-pdf="${mk.pdfUrl}">
-      //     Read Full Articles
-      //   </button>
-      // `;
-    }
+    // If there is a PDF URL, you could add a "Read Full Articles" button here if needed.
+    // (The current code for that button is commented out.)
 
     // Insert close button inside the marker description.
     itemDiv.innerHTML = `
-      <h3 class="marker-title">${mk.title}</h3>
+      <div class="marker-header">
+      <button class="close-btn card-close-btn">✕</button>
+      <h3 class="marker-title">${mk.fullTitle || mk.title}</h3>
+      </div>
       <div class="marker-description">
         ${descHTML}
-        <button class="close-btn">^</button>
+      
       </div>
     `;
 
-    // On clicking the marker item, expand description and pan the map.
+    // When the marker item is clicked, expand its description and pan the map.
     itemDiv.addEventListener('click', () => {
       toggleMarkerDescription(idx);
       flyToMarkerAndOpenPopup(idx, mk.coordinates);
@@ -651,16 +776,15 @@ function renderMarkersInfo(markers) {
     // Bind the close button event.
     const closeBtn = itemDiv.querySelector('.close-btn');
     if (closeBtn) {
-    // get id detailTextContent's width
-    const detailText = document.getElementById('detailTextContent');
+      const detailText = document.getElementById('detailTextContent');
       const detailTextWidth = detailText.offsetWidth;
-      closeBtn.style.left = `${detailTextWidth - 60}px`;
+      closeBtn.style.left = `${detailTextWidth - 40}px`;
       closeBtn.addEventListener('click', (e) => {
         closeMarkerDescription(idx, e);
       });
     }
 
-    // Setup "Read Full Articles" button event.
+    // Setup "Read Full Articles" button event if needed.
     setTimeout(() => {
       const pdfBtn = itemDiv.querySelector('.pdf-button');
       if (pdfBtn) {
@@ -668,6 +792,18 @@ function renderMarkersInfo(markers) {
           e.stopPropagation();
           const pdfUrl = pdfBtn.getAttribute('data-pdf');
           openPdfModal(pdfUrl);
+        });
+      }
+    }, 0);
+
+    // After the item is appended, attach a click event to the feature image.
+    setTimeout(() => {
+      const imageElem = itemDiv.querySelector('.marker-image');
+      if (imageElem) {
+        imageElem.addEventListener('click', (e) => {
+          e.stopPropagation();
+          // Use the image caption if available; otherwise fall back to the full title.
+          openImageOverlay(mk.image, mk.imageCaption || mk.fullTitle || mk.title);
         });
       }
     }, 0);
@@ -713,7 +849,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const regionId = parseInt(urlParams.get('id'), 10);
 
   // Fetch region data.
-  const resp = await fetch('/data/mapsData.json');
+  const resp = await fetch('/counterMap/data/mapsData.json');
   const data = await resp.json();
 
   // Find matching region data.
@@ -725,16 +861,24 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Set region title.
   document.getElementById('regionTitle').textContent = currentRegionData.title;
+    
+  delete L.Icon.Default.prototype._getIconUrl;
 
-  // Initialize the map with region data.
-  initDetailMap(currentRegionData);
+  L.Icon.Default.mergeOptions({
+    iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+    iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+    shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png'
+  });
+
+
 
   // Process PDF text for markers (if available).
   if (currentRegionData.markers && currentRegionData.markers.length > 0) {
     await processMarkersPdfText(currentRegionData.markers);
   }
-
-  // Render marker information.
+    // Initialize the map with region data.
+    initDetailMap(currentRegionData);
+  // Render marker information in the side panel.
   renderMarkersInfo(currentRegionData.markers);
 });
 

@@ -14,10 +14,13 @@
     "vite": "^5.4.18"
   },
   "dependencies": {
+    "georaster": "^1.6.0",
+    "georaster-layer-for-leaflet": "^3.10.0",
     "leaflet": "^1.9.4",
     "leaflet-distortableimage": "^0.21.9",
     "leaflet-toolbar": "^0.4.0-alpha.2",
     "pdfjs-dist": "^5.1.91",
+    "proj4": "^2.15.0",
     "toolbar": "^0.0.5"
   }
 }

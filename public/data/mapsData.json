@@ -5,7 +5,7 @@
         "title": "Haiti (Overall)",
         "type": "region",
         "coordinates": [18.893333, -72.833336],
-        "description": "Overall view of Haiti and the historical overlay.",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
         "overlayImage": "assets/1_SaintDomingue.jpg",
         "overlayOpacity": 0.5,
         "detailPage": "detail.html?id=1",
@@ -19,12 +19,12 @@
           {
             "title": "Overall Marker #1",
             "coordinates": [19.0, -74.0],
-            "text": "Some interesting spot in the overall map."
+            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
           },
           {
             "title": "Overall Marker #2",
             "coordinates": [19.5, -73.2],
-            "text": "Another point of interest in Haiti."
+            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
           }
         ]
       },
@@ -33,7 +33,7 @@
         "title": "Region around Cap-Haitien",
         "type": "region",
         "coordinates": [19.76567, -72.222171],
-        "description": "Hover to see details for Cap-Haitien region.",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
         "overlayImage": "assets/2_CapRegion.jpg",
         "overlayOpacity": 0.9,
         "detailPage": "detail.html?id=2",
@@ -47,12 +47,12 @@
           {
             "title": "Cap-Haitien Marker #1",
             "coordinates": [19.8, -72.3],
-            "text": "Historic plantation site near Cap-Haitien."
+            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
           },
           {
             "title": "Cap-Haitien Marker #2",
             "coordinates": [19.6, -72.45],
-            "text": "Another relevant point in the region."
+            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
           }
         ]
       },
@@ -62,7 +62,7 @@
         "type": "town",
         "regionId": 2,
         "coordinates": [19.76, -72.5],
-        "description": "Historic city near Region #2.",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
         "overlayImage": "assets/3_CapVille_small.jpg",
         "overlayOpacity": 0.9,
         "detailPage": "detail.html?id=3",
@@ -76,12 +76,12 @@
           {
             "title": "Town Marker #1",
             "coordinates": [19.75, -72.55],
-            "text": "A historical building in Cap-Haitien town."
+            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
           },
           {
             "title": "Town Marker #2",
             "coordinates": [19.78, -72.48],
-            "text": "Market area with significant history."
+            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
           }
         ]
       },
@@ -90,8 +90,8 @@
         "title": "Region of Cul-de-Sac du Port-au-Prince",
         "type": "region",
         "coordinates": [18.68, -72.22],
-        "description": "Pierre Bernard Morlot, Portrait of Dominique Deurbroucq and an Enslaved Attendant, 1753. Oil on canvas. © André Bocquel / Château des ducs de Bretagne - Musée d'histoire de Nantes",
-        "altText": "Pierre Bernard Morlot, Portrait of Dominique Deurbroucq and an Enslaved Attendant, 1753. Oil on canvas. © André Bocquel / Château des ducs de Bretagne - Musée d'histoire de Nantes",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "altText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
         "overlayImage": "assets/4_CuldeSac.jpg",
         "overlayOpacity": 0.9,
         "detailPage": "detail.html?id=4",
@@ -105,12 +105,13 @@
           {
             "title": "Cul-de-Sac Marker #1",
             "coordinates": [18.623776, -72.255897],
-            "text": "Farms and plantations historically present."
+            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            "categories": ["theatre", "music"]
           },
           {
             "title": "Cul-de-Sac Marker #2",
             "coordinates": [18.5, -72.3],
-            "text": "Additional historical site or event."
+            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
           }
         ]
       },
@@ -121,7 +122,7 @@
         "markerCenter": [18.63, -72.26],
         "regionId": 4,
         "coordinates": [18.94395, -72.007434],
-        "description": "Historic city near Region #4.",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
         "overlayImage": "assets/5_Port-au-Prince.jpg",
         
          "overlayBounds": [
@@ -136,24 +137,23 @@
         "markers": [
     {
       "title": "Minette",
-      "coordinates": [18.551779, -72.344278],
-      "text": "Historic fort site in Port-au-Prince.",
+      "coordinates": [18.551229, -72.343278],
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
       "image": "assets/Prest_Image_Minette.jpg",
       "imageAlt": "Historical photo of Minette",
       "pdfUrl": "assets/docs/Prest_Text_Minette.pdf",
       "pdfHighlights": [
         { "keyword": "local playhouse", "markerIdx": "1"}
-      ]
+      ],
+      "categories": ["theatre", "music"]
     },
     {
       "title": "Playhouse",
-      "coordinates": [18.551961, -72.343951],
-      "text": "Old harbor area with trade significance.",
+      "coordinates": [18.551491, -72.342951],
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
       "image": "assets/Prest_Image_Playhouse.jpg",
       "imageAlt": "Playhouse historical photo",
       "pdfUrl": "assets/docs/Prest_Text_Playhouse.pdf",
-      "pdfTitle": "The Port-au-Prince Playhouse",
-      "pdfAuthor": "Author: Julia Prest, University of St Andrews",
       "pdfExcerpt": "......",
       "pdfHighlights": [
         { "keyword": "Minette", "markerIdx": 0 },
@@ -167,7 +167,7 @@
         "title": "Region around Les Cayes",
         "type": "region",
         "coordinates": [18.19482, -73.75],
-        "description": "Historic region near Les Cayes.",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
         "overlayImage": "assets/6_Cayes.jpg",
         "overlayBounds": [
           [17.96482, -73.95846090262853],
@@ -180,12 +180,12 @@
           {
             "title": "Les Cayes Marker #1",
             "coordinates": [18.3, -73.8],
-            "text": "Some plantation or settlement in Les Cayes region."
+            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
           },
           {
             "title": "Les Cayes Marker #2",
             "coordinates": [18.35, -73.7],
-            "text": "Another location with historical context."
+            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
           }
         ]
       }
